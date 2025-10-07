@@ -54,17 +54,31 @@
         app:layout_constraintWidth_percent="0.85" />
 
     <Button
-        android:id="@+id/loginButton"
+        android:id="@+id/SignupButton"
         android:layout_width="173dp"
         android:layout_height="65dp"
-        android:layout_marginTop="185dp"
+        android:layout_marginTop="172dp"
         android:background="@drawable/button_background"
-        android:text="Login"
+        android:text="SignUp"
         android:textColor="#FFFFFF"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/tsflogin"
+        android:layout_width="284dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="5dp"
+        android:text="Already have an account?Login"
+        android:textColor="#1D93D7"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.657"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/SignupButton"
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
