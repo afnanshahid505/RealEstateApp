@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg1"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">  <!-- optional background -->
+
+    <Button
+        android:id="@+id/btnPlots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="#A0BCBC"
+        android:padding="12dp"
+        android:text="Plots"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+
+    <Button
+        android:id="@+id/btnPgHostels"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#A0BDBD"
+        android:padding="12dp"
+        android:text="PG Hostels"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        tools:ignore="HardcodedText,VisualLintButtonSize" />
+</LinearLayout>
