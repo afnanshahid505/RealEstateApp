@@ -31,9 +31,10 @@
         <!-- Home -->
         <activity android:name=".HomeActivity" android:exported="true" />
 
+
         <!-- Plots & PGHostels -->
-        <activity android:name=".PlotsActivity" android:exported="true" />
-        <activity android:name=".PgHostelsActivity" android:exported="true" />
+        <activity android:name=".SellerActivity" android:exported="true" />
+        <activity android:name=".BuyerActivity" android:exported="true" />
 
         <!-- Dashboards -->
         <activity android:name=".SellerDashboardActivity" android:exported="true" />
@@ -46,7 +47,7 @@
         <activity android:name=".CartActivity" android:exported="true" />
 
         <!-- Common -->
-        <activity android:name=".WelcomeActivity" android:exported="true" />
+
 
 
     </application>

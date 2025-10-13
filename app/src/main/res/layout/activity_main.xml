@@ -46,11 +46,13 @@
     <!-- Login Button -->
 
     <!-- Signup Text (Link to Signup page) -->
+    <!-- Don't have an account? Sign Up -->
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="173dp"
         android:layout_height="65dp"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/button_background"
         android:text="Login"
         android:textColor="#FFFFFF"
@@ -59,18 +61,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
         tools:ignore="HardcodedText,MissingConstraints" />
-    <!-- Don't have an account? Sign Up -->
+
     <TextView
         android:id="@+id/goToSignupText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="16dp"
         android:text="Don't have an account? Sign Up"
         android:textColor="#1D4ED8"
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginButton"
         tools:ignore="HardcodedText,TextContrastCheck" />
