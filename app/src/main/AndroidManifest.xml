@@ -35,6 +35,8 @@
         <!-- Plots & PGHostels -->
         <activity android:name=".SellerActivity" android:exported="true" />
         <activity android:name=".BuyerActivity" android:exported="true" />
+        <activity android:name=".DashboardActivity" android:exported="true"/>
+
 
         <!-- Dashboards -->
 

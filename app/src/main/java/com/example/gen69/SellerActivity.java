@@ -1,6 +1,7 @@
 package com.example.gen69;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,9 +50,9 @@ public class SellerActivity extends AppCompatActivity {
 
         descriptionEditText = findViewById(R.id.etDescription);
         locationEditText = findViewById(R.id.etLocation);
-        btnSelectImage = findViewById(R.id.btnSelectImage); // still visible, not used yet
+        btnSelectImage = findViewById(R.id.btnSelectImage);
         btnSubmitProperty = findViewById(R.id.btnSubmitProperty);
-        imageView = findViewById(R.id.ivPropertyImage); // still in layout
+        imageView = findViewById(R.id.ivPropertyImage);
 
         // Submit property
         btnSubmitProperty.setOnClickListener(v -> {
@@ -75,7 +76,7 @@ public class SellerActivity extends AppCompatActivity {
         });
     }
 
-    // Add Dashboard option
+    // Toolbar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuItem dashboardItem = menu.add("Dashboard");
@@ -86,7 +87,8 @@ public class SellerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getTitle() != null && item.getTitle().toString().equals("Dashboard")) {
-            Toast.makeText(this, "User's Dashboard clicked", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(SellerActivity.this, DashboardActivity.class);
+            startActivity(intent);
             return true;
         }
         return super.onOptionsItemSelected(item);

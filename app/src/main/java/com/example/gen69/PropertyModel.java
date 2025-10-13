@@ -1,17 +1,20 @@
 package com.example.gen69;
 
 public class PropertyModel {
+
+    private String id;            // 🔹 Firestore document ID
     private String description;
     private String location;
     private String imageUrl;
     private String type;
     private String userId;
 
-    // 🔹 Empty constructor (needed by Firebase)
-    public PropertyModel() {}
+    public PropertyModel() {
+        // Required empty constructor for Firestore
+    }
 
-    // 🔹 Optional: full constructor
-    public PropertyModel(String description, String location, String imageUrl, String type, String userId) {
+    public PropertyModel(String id, String description, String location, String imageUrl, String type, String userId) {
+        this.id = id;
         this.description = description;
         this.location = location;
         this.imageUrl = imageUrl;
@@ -19,46 +22,53 @@ public class PropertyModel {
         this.userId = userId;
     }
 
-    // 🔹 Getters
+    // 🔹 Add ID getter & setter
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    // Other getters & setters
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getLocation() {
         return location;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    // 🔹 Setters (optional but recommended)
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
+    public String getType() {
+        return type;
+    }
+
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
     }
 }
-

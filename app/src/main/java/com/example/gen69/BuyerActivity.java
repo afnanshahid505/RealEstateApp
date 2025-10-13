@@ -2,6 +2,10 @@ package com.example.gen69;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -16,12 +21,19 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 public class BuyerActivity extends AppCompatActivity {
 
-    Toolbar toolbar;
-    EditText etLocation;
-    TextView tvUserLocation;
-    TabLayout tabLayout;
-    ViewPager2 viewPager;
-    Button btnSearch; // search button below location input
+    private Toolbar toolbar;
+    private EditText etLocation;
+    private TextView tvUserLocation;
+    private Button btnSearchLocation;
+    private TabLayout tabLayout;
+    private ViewPager2 viewPager;
+
+    private BuyerPagerAdapter adapter;
+    private String lastLocation = null;
+
+    // Store fragments for direct access
+    private PlotsFragment plotsFragment;
+    private HouseFragment houseFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,72 +41,83 @@ public class BuyerActivity extends AppCompatActivity {
         setContentView(R.layout.buy);
 
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        etLocation = findViewById(R.id.etLocation);
+        tvUserLocation = findViewById(R.id.tvUserLocation);
+        btnSearchLocation = findViewById(R.id.btnSearchLocation);
+        tabLayout = findViewById(R.id.tabLayout);
+        viewPager = findViewById(R.id.viewPager);
 
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true); // back arrow
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setTitle("Buyer");
         }
 
-        etLocation = findViewById(R.id.etLocation);
-        tvUserLocation = findViewById(R.id.tvUserLocation);
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager = findViewById(R.id.viewPager);
-        btnSearch = findViewById(R.id.btnSearchLocation); // the search button below location input
+        // Initialize fragments
+        plotsFragment = new PlotsFragment();
+        houseFragment = new HouseFragment();
 
-        // Adapter for ViewPager2
-        BuyerPagerAdapter adapter = new BuyerPagerAdapter(this);
+        adapter = new BuyerPagerAdapter(this, plotsFragment, houseFragment);
         viewPager.setAdapter(adapter);
 
-        // Connect TabLayout with ViewPager2
-        new TabLayoutMediator(tabLayout, viewPager,
-                (tab, position) -> {
-                    if (position == 0) tab.setText("Plots");
-                    else tab.setText("Houses/Rent");
-                }).attach();
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
+            tab.setText(position == 0 ? "Plots" : "Houses");
+        }).attach();
 
-        // Search button functionality
-        btnSearch.setOnClickListener(v -> {
-            String loc = etLocation.getText().toString().trim();
-            if (!loc.isEmpty()) {
-                tvUserLocation.setText(loc);
+        btnSearchLocation.setOnClickListener(v -> performSearch());
+    }
 
-                // Pass location to both fragments
-                PlotsFragment plotsFragment = (PlotsFragment) adapter.createFragment(0);
-                plotsFragment.updateLocation(loc);
+    private void performSearch() {
+        String location = etLocation.getText().toString().trim();
 
-                HouseFragment houseFragment = (HouseFragment) adapter.createFragment(1);
-                houseFragment.updateLocation(loc);
+        if (location.isEmpty()) {
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-            } else {
-                Toast.makeText(this, "Enter a location", Toast.LENGTH_SHORT).show();
+        lastLocation = location;
+        tvUserLocation.setText(location);
+
+        // wait for fragments to attach properly before updating
+        new Handler(Looper.getMainLooper()).postDelayed(this::updateFragments, 400);
+    }
+
+    private void updateFragments() {
+        if (lastLocation == null) return;
+
+        try {
+            if (plotsFragment.isAdded()) {
+                plotsFragment.updateLocation(lastLocation);
             }
-        });
+
+            if (houseFragment.isAdded()) {
+                houseFragment.updateLocation(lastLocation);
+            }
+
+        } catch (Exception e) {
+            Toast.makeText(this, "Error updating fragments: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
     }
 
+    // Add cart (wishlist) button to toolbar
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        // Add Wishlist button in toolbar
-        android.view.MenuItem wishlistItem = menu.add("Wishlist");
-        wishlistItem.setShowAsAction(android.view.MenuItem.SHOW_AS_ACTION_ALWAYS);
-        wishlistItem.setIcon(R.drawable.ic_wishlist); // make sure you have this drawable
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(android.view.MenuItem item) {
-        if (item.getTitle() != null && item.getTitle().toString().equals("Wishlist")) {
-            // Open Wishlist activity
-            Intent intent = new Intent(this, WishlistActivity.class);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuItem cartItem = menu.add("Wishlist");
+        cartItem.setIcon(android.R.drawable.ic_menu_agenda); // or your cart drawable
+        cartItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        cartItem.setOnMenuItemClickListener(item -> {
+            // Open WishlistActivity
+            Intent intent = new Intent(BuyerActivity.this, WishlistActivity.class);
             startActivity(intent);
             return true;
-        }
-        return super.onOptionsItemSelected(item);
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish(); // back to previous activity
+        finish();
         return true;
     }
 }

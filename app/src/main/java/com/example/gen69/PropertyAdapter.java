@@ -1,10 +1,12 @@
 package com.example.gen69;
 
 import android.content.Context;
-import android.widget.Button;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,12 +14,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.PropertyViewHolder> {
 
@@ -40,31 +42,45 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
     public void onBindViewHolder(@NonNull PropertyViewHolder holder, int position) {
         PropertyModel property = propertyList.get(position);
 
-        holder.tvDescription.setText(property.getDescription());
-        holder.tvLocation.setText(property.getLocation());
+        holder.tvDescription.setText(property.getDescription() != null ? property.getDescription() : "No Description");
+        holder.tvLocation.setText(property.getLocation() != null ? property.getLocation() : "Unknown Location");
 
-        Glide.with(context)
-                .load(property.getImageUrl())
-                .placeholder(R.drawable.bg2)
-                .into(holder.ivProperty);
+        // No image field in DB → use static placeholder
+        holder.ivProperty.setImageResource(R.drawable.bg2);
 
-        // Wishlist button click
-        holder.btnAddToWishlist.setOnClickListener(v -> {
-            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-            if (currentUser != null) {
-                FirebaseFirestore.getInstance()
-                        .collection("wishlist")
-                        .document(currentUser.getUid())
-                        .collection("properties")
-                        .document() // auto-generated ID
-                        .set(property)
-                        .addOnSuccessListener(aVoid ->
-                                Toast.makeText(context, "Added to Wishlist", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e ->
-                                Toast.makeText(context, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        // Click property → open Google Maps
+        holder.itemView.setOnClickListener(v -> {
+            if (property.getLocation() != null && !property.getLocation().isEmpty()) {
+                try {
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + Uri.encode(property.getLocation()));
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
+                    context.startActivity(mapIntent);
+                } catch (Exception e) {
+                    Toast.makeText(context, "Google Maps not available", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(context, "Please log in to add to wishlist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Location not available", Toast.LENGTH_SHORT).show();
             }
+        });
+
+        // Add to Wishlist button functionality
+        holder.btnAddToWishlist.setOnClickListener(v -> {
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            Map<String, Object> wishlistItem = new HashMap<>();
+            wishlistItem.put("userId", userId);
+            wishlistItem.put("description", property.getDescription());
+            wishlistItem.put("location", property.getLocation());
+            wishlistItem.put("type", property.getType());
+
+            db.collection("wishlist")
+                    .add(wishlistItem)
+                    .addOnSuccessListener(aVoid ->
+                            Toast.makeText(context, "Added to wishlist", Toast.LENGTH_SHORT).show())
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Failed to add to wishlist", Toast.LENGTH_SHORT).show());
         });
     }
 
@@ -83,7 +99,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyAdapter.Proper
             ivProperty = itemView.findViewById(R.id.ivProperty);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             tvLocation = itemView.findViewById(R.id.tvLocation);
-            btnAddToWishlist = itemView.findViewById(R.id.btnAddToWishlist); // new button
+            btnAddToWishlist = itemView.findViewById(R.id.btnAddToWishlist); // Add this in your item_property.xml
         }
     }
 }

@@ -7,31 +7,23 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class BuyerPagerAdapter extends FragmentStateAdapter {
 
-    private final PlotsFragment plotsFragment;
-    private final HouseFragment houseFragment;
+    private final Fragment plotsFragment;
+    private final Fragment houseFragment;
 
-    public BuyerPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
+    public BuyerPagerAdapter(@NonNull FragmentActivity fragmentActivity, Fragment plotsFragment, Fragment houseFragment) {
         super(fragmentActivity);
-        plotsFragment = new PlotsFragment();
-        houseFragment = new HouseFragment();
+        this.plotsFragment = plotsFragment;
+        this.houseFragment = houseFragment;
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return (position == 0) ? plotsFragment : houseFragment;
+        return position == 0 ? plotsFragment : houseFragment;
     }
 
     @Override
     public int getItemCount() {
         return 2;
-    }
-
-    public PlotsFragment getPlotsFragment() {
-        return plotsFragment;
-    }
-
-    public HouseFragment getHouseFragment() {
-        return houseFragment;
     }
 }

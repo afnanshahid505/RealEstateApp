@@ -80,7 +80,8 @@ public class HomeActivity extends AppCompatActivity {
                 if (menuId == R.id.menu_profile) {
                     Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
                 } else if (menuId == R.id.menu_dashboard) {
-                    Toast.makeText(this, "Dashboard clicked", Toast.LENGTH_SHORT).show();
+                    Intent sw= new Intent(HomeActivity.this, DashboardActivity.class);
+                    startActivity(sw);
                 } else if (menuId == R.id.menu_wishlist) {
                     Intent sd= new Intent (HomeActivity.this,WishlistActivity.class);
                     startActivity(sd);
