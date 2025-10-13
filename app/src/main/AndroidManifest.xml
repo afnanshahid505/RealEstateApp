@@ -37,10 +37,10 @@
         <activity android:name=".BuyerActivity" android:exported="true" />
 
         <!-- Dashboards -->
-        <activity android:name=".SellerDashboardActivity" android:exported="true" />
-        <activity android:name=".BuyerDashboardActivity" android:exported="true" />
-        <activity android:name=".OwnerDashboardActivity" android:exported="true" />
-        <activity android:name=".TenantDashboardActivity" android:exported="true" />
+
+
+
+
 
         <!-- Wishlist & Cart -->
         <activity android:name=".WishlistActivity" android:exported="true" />
