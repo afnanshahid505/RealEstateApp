@@ -78,7 +78,8 @@ public class HomeActivity extends AppCompatActivity {
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 int menuId = menuItem.getItemId();
                 if (menuId == R.id.menu_profile) {
-                    Toast.makeText(this, "Profile clicked", Toast.LENGTH_SHORT).show();
+                    Intent sw= new Intent(HomeActivity.this, ProfileActivity.class);
+                    startActivity(sw);
                 } else if (menuId == R.id.menu_dashboard) {
                     Intent sw= new Intent(HomeActivity.this, DashboardActivity.class);
                     startActivity(sw);
