@@ -77,10 +77,7 @@ public class HomeActivity extends AppCompatActivity {
 
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 int menuId = menuItem.getItemId();
-                if (menuId == R.id.menu_profile) {
-                    Intent sw= new Intent(HomeActivity.this, ProfileActivity.class);
-                    startActivity(sw);
-                } else if (menuId == R.id.menu_dashboard) {
+                 if (menuId == R.id.menu_dashboard) {
                     Intent sw= new Intent(HomeActivity.this, DashboardActivity.class);
                     startActivity(sw);
                 } else if (menuId == R.id.menu_wishlist) {

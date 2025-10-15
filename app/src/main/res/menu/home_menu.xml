@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-        android:id="@+id/menu_profile"
-        android:title="Profile"
-        android:icon="@drawable/ic_person"
-        android:showAsAction="never" />
+   
 
     <item
         android:id="@+id/menu_dashboard"
@@ -18,8 +14,5 @@
         android:title="Wishlist"
         android:icon="@drawable/ic_favorite"
         android:showAsAction="never" />
-    <item
-        android:id="@+id/Logout"
-        android:title="LogOut"
-        android:icon="@drawable/ic_logout"/>
+
 </menu>

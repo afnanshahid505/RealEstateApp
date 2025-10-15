@@ -41,7 +41,7 @@
         <!-- Dashboards -->
 
         <!-- Profile -->
-        <activity android:name=".ProfileActivity" android:exported="true"/>
+
 
 
 
